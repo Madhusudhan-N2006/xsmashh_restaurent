@@ -1,0 +1,26 @@
+/* style.css - simple custom styles */
+:root {
+  --brand: #b60000;
+}
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial;
+}
+.navbar-brand {
+  font-weight: 700;
+}
+.card img {
+  height: 220px;
+  object-fit: cover;
+}
+footer {
+  font-size: 0.9rem;
+}
+@media (max-width: 576px) {
+  .card img {
+    height: 160px;
+  }
+}
+a.nav-link.active {
+  color: black !important;
+}
