@@ -198,6 +198,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // Reset form
     form.reset();
   }
+
+  // Package calculation function for packages.html
+  function pkgCalc() {
+    const priceEl = document.getElementById("pkgPrice");
+    const daysEl = document.getElementById("pkgDays");
+    const totalEl = document.getElementById("pkgTotal");
+
+    const price = parseFloat(priceEl?.textContent || 0);
+    const days = parseInt(daysEl?.value || 1);
+    if (totalEl) totalEl.textContent = (price * days).toFixed(2);
+  }
   
   // ========================================
   // EXPOSE FUNCTIONS GLOBALLY
@@ -208,3 +219,4 @@ document.addEventListener("DOMContentLoaded", () => {
   window.updatePrice = updatePrice;
   window.calculateTotal = calculateTotal;
   window.submitOrder = submitOrder;
+  window.pkgCalc = pkgCalc;
