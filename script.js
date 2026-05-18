@@ -1,4 +1,4 @@
-// script.js — works for both index.html and packages.html
+// script.js — works for all HTML pages
 
 // -----------------------------
 // Footer year update
@@ -127,11 +127,84 @@ document.addEventListener("DOMContentLoaded", () => {
       if (modalInst) modalInst.hide();
     }
   }
+
+  // ========================================
+  // CONTACT PAGE FUNCTIONS (contact.html)
+  // ========================================
+
+  // Update price based on selected dish
+  function updatePrice() {
+    const dishSelect = document.getElementById("dishSelect");
+    const pricePerDish = document.getElementById("pricePerDish");
+    
+    if (!dishSelect || !pricePerDish) return;
+    
+    const selectedValue = dishSelect.value;
+    const [dishName, price] = selectedValue.split("|");
+    
+    pricePerDish.value = price || 0;
+    calculateTotal();
+  }
+
+  // Calculate total price (quantity × price)
+  function calculateTotal() {
+    const quantity = document.getElementById("quantity");
+    const pricePerDish = document.getElementById("pricePerDish");
+    const totalPrice = document.getElementById("totalPrice");
+    
+    if (!quantity || !pricePerDish || !totalPrice) return;
+    
+    const qty = Number(quantity.value) || 1;
+    const price = Number(pricePerDish.value) || 0;
+    const total = qty * price;
+    
+    totalPrice.value = total.toFixed(2);
+  }
+
+  // Handle order form submission
+  function submitOrder(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const name = document.getElementById("name")?.value || "";
+    const email = document.getElementById("email")?.value || "";
+    const dishSelect = document.getElementById("dishSelect")?.value || "";
+    const quantity = document.getElementById("quantity")?.value || "1";
+    const totalPrice = document.getElementById("totalPrice")?.value || "0";
+    const instructions = document.getElementById("instructions")?.value || "None";
+    
+    const [dishName] = dishSelect.split("|");
+    
+    // Show confirmation
+    const confirmSummary = document.getElementById("confirmSummary");
+    if (confirmSummary) {
+      confirmSummary.innerHTML = `
+        <strong>Name:</strong> ${name}<br/>
+        <strong>Email:</strong> ${email}<br/>
+        <strong>Dish:</strong> ${dishName}<br/>
+        <strong>Quantity:</strong> ${quantity}<br/>
+        <strong>Total:</strong> $${totalPrice}<br/>
+        <strong>Instructions:</strong> ${instructions}
+      `;
+    }
+    
+    // Show modal
+    const confirmModal = document.getElementById("confirmModal");
+    if (confirmModal) {
+      const modal = new bootstrap.Modal(confirmModal);
+      modal.show();
+    }
+    
+    // Reset form
+    form.reset();
+  }
   
-  // -----------------------------
-  // Expose functions globally
-  // -----------------------------
+  // ========================================
+  // EXPOSE FUNCTIONS GLOBALLY
+  // ========================================
   window.setPackage = setPackage;
   window.modalCalc = modalCalc;
   window.handleModalBooking = handleModalBooking;
-  
+  window.updatePrice = updatePrice;
+  window.calculateTotal = calculateTotal;
+  window.submitOrder = submitOrder;
